@@ -14,6 +14,11 @@ void Error_Handler(void) {
   /* USER CODE END Error_Handler_Debug */
 }
 
+/**
+ * @brief TIM1 Initialization Function
+ * @param None
+ * @retval None
+ */
 void MX_TIM1_Init(void) {
   /* USER CODE BEGIN TIM1_Init 0 */
 
@@ -36,11 +41,11 @@ void MX_TIM1_Init(void) {
   sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
   sConfig.IC1Selection = TIM_ICSELECTION_DIRECTTI;
   sConfig.IC1Prescaler = TIM_ICPSC_DIV1;
-  sConfig.IC1Filter = 5;
+  sConfig.IC1Filter = 0;
   sConfig.IC2Polarity = TIM_ICPOLARITY_RISING;
   sConfig.IC2Selection = TIM_ICSELECTION_DIRECTTI;
   sConfig.IC2Prescaler = TIM_ICPSC_DIV1;
-  sConfig.IC2Filter = 5;
+  sConfig.IC2Filter = 0;
   if (HAL_TIM_Encoder_Init(&htim1, &sConfig) != HAL_OK) {
     Error_Handler();
   }
@@ -99,6 +104,12 @@ void MX_TIM3_Init(void) {
   /* USER CODE END TIM3_Init 2 */
 }
 
+/**
+ * @brief TIM_Encoder MSP Initialization
+ * This function configures the hardware resources used in this example
+ * @param htim_encoder: TIM_Encoder handle pointer
+ * @retval None
+ */
 void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef* htim_encoder) {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
   if (htim_encoder->Instance == TIM1) {
@@ -130,30 +141,23 @@ void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef* htim_encoder) {
     /* Peripheral clock enable */
     __HAL_RCC_TIM3_CLK_ENABLE();
 
-    __HAL_RCC_GPIOA_CLK_ENABLE();
+    __HAL_RCC_GPIOB_CLK_ENABLE();
     /**TIM3 GPIO Configuration
-    PA4     ------> TIM3_CH2
-    PA6     ------> TIM3_CH1
+    PB4     ------> TIM3_CH1
+    PB5     ------> TIM3_CH2
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_4 | GPIO_PIN_6;
+    GPIO_InitStruct.Pin = GPIO_PIN_4 | GPIO_PIN_5;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.Alternate = GPIO_AF2_TIM3;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
     /* USER CODE BEGIN TIM3_MspInit 1 */
 
     /* USER CODE END TIM3_MspInit 1 */
   }
 }
-
-/**
- * @brief TIM_Encoder MSP De-Initialization
- * This function freeze the hardware resources used in this example
- * @param htim_encoder: TIM_Encoder handle pointer
- * @retval None
- */
 
 /**
  * @brief TIM_Encoder MSP De-Initialization

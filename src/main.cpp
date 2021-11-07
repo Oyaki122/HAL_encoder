@@ -6,7 +6,7 @@
 asm(".global _printf_float");
 
 int main() {
-  Encoder1 encoder1(24);
+  Encoder1 encoder1(360);
   Encoder3 encoder3(24);
   encoder1.start();
   encoder3.start();
